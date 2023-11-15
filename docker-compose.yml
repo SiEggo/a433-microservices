@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  item-app:
+    image: ghcr.io/SiEggo/a433-microservices/item-app:v1
+    ports:
+      - "80:8080"
+    depends_on:
+      - item-db
+    restart: always
+  
+  item-db:
+    image: ghcr.io/SiEggo/a433-microservices/item-db:v1
+    volumes:
+      - app-db:/data/db
+    restart: always
+
+volumes:
+  app-db:
