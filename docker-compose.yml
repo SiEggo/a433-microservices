@@ -1,19 +1,31 @@
 version: '3.7'
 
 services:
+  # Service untuk aplikasi item-app
   item-app:
-    image: ghcr.io/SiEggo/a433-microservices/item-app:v1
+    # Menggunakan Docker image dari GitHub Packages
+    image: ghcr.io/sieggo/a433-microservices/item-app:v1
+
+    # Melakukan port mapping agar dapat diakses dari port 80 di host
     ports:
       - "80:8080"
+
+    # Menunggu container item-db untuk dijalankan sebelum memulai item-app
     depends_on:
       - item-db
+
+    # Kebijakan restart, agar container selalu restart ketika terhenti
     restart: always
   
+  # Service untuk database item-db
   item-db:
-    image: ghcr.io/SiEggo/a433-microservices/item-db:v1
+    # Menggunakan Docker image dari Docker Hub dengan tag mongo:3
+    image: mongo:3
+
+    # Menggunakan volume bernama app-db untuk menyimpan data database
     volumes:
       - app-db:/data/db
-    restart: always
 
 volumes:
+  # Volume untuk database
   app-db:
